@@ -4,13 +4,13 @@ import arrowDownIcon from '../../assets/arrow-down.svg'
 type KappButtonProps = {
   icon: string
   label: string
-  variant: 'primary' | 'secondary'
+  $variant: 'primary' | 'secondary'
   type?: string
 }
 
 export function KappButton(props: Readonly<KappButtonProps>) {
   return (
-    <StyledButton variant={props.variant}>
+    <StyledButton $variant={props.$variant}>
       <img src={props.icon} alt="file up icon" />
       <span>{props.label}</span>
       {props.type === 'dropdown' && <img src={arrowDownIcon} alt="Dropdown" />}
@@ -18,7 +18,7 @@ export function KappButton(props: Readonly<KappButtonProps>) {
   )
 }
 
-const StyledButton = styled.button<Pick<KappButtonProps, 'variant'>>`
+const StyledButton = styled.button<Pick<KappButtonProps, '$variant'>>`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -40,7 +40,7 @@ const StyledButton = styled.button<Pick<KappButtonProps, 'variant'>>`
   }
 
   ${(props) =>
-    props.variant === 'primary' &&
+    props.$variant === 'primary' &&
     css`
       background-color: var(--color-secondary);
       span {
@@ -49,7 +49,7 @@ const StyledButton = styled.button<Pick<KappButtonProps, 'variant'>>`
     `}
 
   ${(props) =>
-    props.variant === 'secondary' &&
+    props.$variant === 'secondary' &&
     css`
       background-color: white;
       span {

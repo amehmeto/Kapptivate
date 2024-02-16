@@ -1,6 +1,7 @@
 :root {
     --text-primary: #24292F;
-
+    --text-secondary: #667085;
+    --text-third: #B2B7C2;
 
     --radius-md: 6px;
 
@@ -8,6 +9,8 @@
 
     --color-secondary: #ED7846;
 
+    --surface-primary: #FFFFFF;
+    --surface-secondary: #FAFAFB;
 
 /*    font-family: Clash Grotesk;
     font-size: 24px;

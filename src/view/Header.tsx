@@ -1,9 +1,9 @@
-import { KappButton } from './design-system/components/KappButton.tsx'
-import fileUp from './assets/file-up.svg'
-import plus from './assets/plus.svg'
+import { KappButton } from '../design-system/components/KappButton.tsx'
+import fileUp from '../assets/file-up.svg'
+import plus from '../assets/plus.svg'
 import styled from 'styled-components'
-import searchIcon from './assets/search.svg'
-import teamsIcon from './assets/teams.svg'
+import searchIcon from '../assets/search.svg'
+import teamsIcon from '../assets/teams.svg'
 
 export function Header() {
   const totalUsers = 45
@@ -16,9 +16,9 @@ export function Header() {
           <KappButton
             icon={fileUp}
             label={'Export .CSV'}
-            variant={'secondary'}
+            $variant={'secondary'}
           />
-          <KappButton icon={plus} label={'New user'} variant={'primary'} />
+          <KappButton icon={plus} label={'New user'} $variant={'primary'} />
         </div>
       </div>
       <div className="header-bottom">
@@ -33,7 +33,7 @@ export function Header() {
         <KappButton
           icon={teamsIcon}
           label={'Teams'}
-          variant={'secondary'}
+          $variant={'secondary'}
           type={'dropdown'}
         />
       </div>
@@ -47,7 +47,7 @@ const StyledHeader = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 32px; // Add this line
+    margin-bottom: 32px;
 
     h1 {
       margin: 0;
