@@ -3,23 +3,29 @@ import { User } from '../../core/models/User.tsx'
 import { faker } from '@faker-js/faker'
 
 export class FetchUserRepository implements UserRepository {
+  private cache: User[] | null = null
+
   async getAllUsers(): Promise<User[]> {
+    if (this.cache) {
+      console.log('Returning cached users')
+      return this.cache
+    }
+
+    console.log('New request')
     const response = await fetch(
       'https://6511a930b8c6ce52b394dc63.mockapi.io/api/users/users',
     )
     const parsedResponse = await response.json()
-    return parsedResponse.map(this.improveMock())
+    const finalResult = parsedResponse.map(this.improveMock())
+    this.cache = finalResult
+    return finalResult
   }
 
   async getUsersPage(
     page: number,
     limit: number,
   ): Promise<{ users: User[]; totalPage: number }> {
-    const response = await fetch(
-      `https://6511a930b8c6ce52b394dc63.mockapi.io/api/users/users`,
-    )
-    const parsedResponse = await response.json()
-    const improvedUsers = parsedResponse.map(this.improveMock())
+    const improvedUsers = await this.getAllUsers()
     const selectedPage = improvedUsers.slice((page - 1) * limit, page * limit)
     return {
       users: selectedPage,

@@ -4,14 +4,72 @@ import plus from '../assets/plus.svg'
 import styled from 'styled-components'
 import searchIcon from '../assets/search.svg'
 import teamsIcon from '../assets/teams.svg'
+import React, { useContext, useEffect } from 'react'
+import { userRepository } from './dependencies.ts'
+import { UserContext } from './UserContext.tsx'
+import clearSearchIcon from '../assets/delete-search.svg'
 
 export function Header() {
-  const totalUsers = 45
+  const { userStoreValues, setUserStore } = useContext(UserContext)
+
+  const { currentPage, users, searchKeyword } = userStoreValues
+
+  useEffect(() => {
+    userRepository
+      .getUsersPage(currentPage, 15)
+      .then(({ users: _users, totalPage }) => ({
+        users: _users.filter((user) => user.name.startsWith(searchKeyword)),
+        totalPage,
+      }))
+      .then(({ users: _users, totalPage }) => {
+        setUserStore((prevState) => {
+          return {
+            ...prevState,
+            userStoreValues: {
+              users: _users,
+              currentPage,
+              totalUsers: _users.length,
+              totalPage: totalPage,
+              searchKeyword,
+            },
+          }
+        })
+      })
+      .catch((error) => console.error('Error:', error))
+  }, [currentPage, searchKeyword])
+
+  function updateKeyword() {
+    return (e: React.ChangeEvent<HTMLInputElement>) => {
+      console.log(e.target.value)
+
+      setUserStore((prevState) => {
+        return {
+          ...prevState,
+          userStoreValues: {
+            ...prevState.userStoreValues,
+            searchKeyword: e.target.value,
+          },
+        }
+      })
+    }
+  }
+
+  function clearSearch() {
+    setUserStore((prevState) => {
+      return {
+        ...prevState,
+        userStoreValues: {
+          ...prevState.userStoreValues,
+          searchKeyword: '',
+        },
+      }
+    })
+  }
 
   return (
     <StyledHeader>
       <div className="header-top">
-        <h1>Users ({totalUsers})</h1>
+        <h1>Users ({users.length})</h1>
         <div className="header-top-right">
           <KappButton
             icon={fileUp}
@@ -27,7 +85,12 @@ export function Header() {
             type={'text'}
             placeholder={'Search...'}
             data-icon={`url(${searchIcon})`}
+            onChange={updateKeyword()}
+            value={searchKeyword}
           />
+          <button onClick={clearSearch}>
+            <img src={clearSearchIcon} alt={'Clear search'} />
+          </button>
           <span hidden={true}>Search</span>
         </label>
         <KappButton
@@ -82,10 +145,28 @@ const StyledHeader = styled.div`
       height: 32px;
       background-color: white;
       box-sizing: border-box;
+      color: var(--text-primary);
     }
 
     label {
       position: relative;
+
+      button {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+      }
+
+      &:active,
+      &:focus {
+        transform: translateY(-50%) scale(0.9);
+        border: none;
+        background-color: transparent;
+      }
     }
 
     label:before {
@@ -93,7 +174,7 @@ const StyledHeader = styled.div`
       position: absolute;
       left: 12px;
       top: 50%;
-      transform: translateY(-50%); // center the icon vertically
+      transform: translateY(-50%);
       height: 15px;
       width: 15px;
 
