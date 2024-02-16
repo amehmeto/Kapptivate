@@ -5,6 +5,10 @@ import moreIcon from '../../assets/more-horizontal.svg'
 import { formatDate } from '../../core/use-cases/FormatDate.ts'
 
 export function UserAccessTableRow(props: Readonly<{ user: User }>) {
+  const devicesWithAccess = props.user.access
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' & ')
+
   return (
     <StyledUserAccessTableRow>
       <td>
@@ -21,7 +25,10 @@ export function UserAccessTableRow(props: Readonly<{ user: User }>) {
         </span>
       </td>
       <td>
-        <span>On {props.user.access.length} products</span>
+        <span>
+          On {props.user.access.length} products
+          <div>{devicesWithAccess}</div>
+        </span>
       </td>
       <td>{formatDate(props.user.last_login)}</td>
       <td>
@@ -88,10 +95,43 @@ const StyledUserAccessTableRow = styled.tr`
 
   td:nth-child(3) {
     span {
+      position: relative;
       font-size: 12px;
       line-height: 18px;
       color: var(--text-secondary);
       border-bottom: 1px dashed #66708580;
+
+      div {
+        display: none;
+        position: absolute;
+      }
+
+      &:hover div {
+        display: block;
+        background-color: var(--color-main);
+        color: white;
+        border: 1px solid var(--border-primary);
+        border-radius: var(--radius-md);
+        padding: 8px;
+        top: -50px;
+        left: 50%;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        z-index: 1;
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: -10px; // Position the arrow at the bottom of the div
+          left: 50%;
+          transform: translateX(-50%);
+          width: 0;
+          height: 0;
+          border-left: 10px solid transparent; // These create
+          border-right: 10px solid transparent; // an arrow shape
+          border-top: 10px solid var(--color-main); // This decides the color
+        }
+      }
     }
   }
 
