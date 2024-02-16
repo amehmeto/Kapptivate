@@ -1,5 +1,5 @@
 import { UserRepository } from '../../core/ports/UserRepository.ts'
-import { User } from '../../core/models/User.tsx'
+import { User } from '../../core/models/User.ts'
 import { faker } from '@faker-js/faker'
 
 export class FetchUserRepository implements UserRepository {

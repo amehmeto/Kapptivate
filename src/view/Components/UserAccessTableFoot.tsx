@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 import { useContext } from 'react'
-import leftArrowIcon from '../assets/arrow-left.svg'
-import rightArrowIcon from '../assets/arrow-right.svg'
-import { UserContext } from './UserContext.tsx'
+import leftArrowIcon from '../../assets/arrow-left.svg'
+import rightArrowIcon from '../../assets/arrow-right.svg'
+import { UserContext } from '../UserContext/UserContext.tsx'
 
 export function UserAccessTableFoot() {
   const userStore = useContext(UserContext)

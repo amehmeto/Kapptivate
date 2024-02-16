@@ -1,14 +1,10 @@
 import styled from 'styled-components'
-import { User } from '../core/models/User.tsx'
-import { format } from 'date-fns'
-import teamsIcon from '../assets/teams.svg'
-import moreIcon from '../assets/more-horizontal.svg'
+import { User } from '../../core/models/User.ts'
+import teamsIcon from '../../assets/teams.svg'
+import moreIcon from '../../assets/more-horizontal.svg'
+import { formatDate } from '../../core/use-cases/FormatDate.ts'
 
 export function UserAccessTableRow(props: Readonly<{ user: User }>) {
-  function formatDate(last_login: number) {
-    return format(new Date(last_login), 'dd/MM/yyyy - HH:mm')
-  }
-
   return (
     <StyledUserAccessTableRow>
       <td>

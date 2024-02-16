@@ -1,13 +1,14 @@
-import { KappButton } from '../design-system/components/KappButton.tsx'
-import fileUp from '../assets/file-up.svg'
-import plus from '../assets/plus.svg'
+import { KappButton } from '../../design-system/components/KappButton.tsx'
+import fileUp from '../../assets/file-up.svg'
+import plus from '../../assets/plus.svg'
 import styled from 'styled-components'
-import searchIcon from '../assets/search.svg'
-import teamsIcon from '../assets/teams.svg'
+import searchIcon from '../../assets/search.svg'
+import teamsIcon from '../../assets/teams.svg'
 import React, { useContext, useEffect } from 'react'
-import { userRepository } from './dependencies.ts'
-import { UserContext } from './UserContext.tsx'
-import clearSearchIcon from '../assets/delete-search.svg'
+import { userRepository } from '../dependencies.ts'
+import { UserContext } from '../UserContext/UserContext.tsx'
+import clearSearchIcon from '../../assets/delete-search.svg'
+import { filterUsersBy } from '../../core/use-cases/FilterUsersBy.ts'
 
 export function Header() {
   const { userStoreValues, setUserStore } = useContext(UserContext)
@@ -17,18 +18,15 @@ export function Header() {
   useEffect(() => {
     userRepository
       .getUsersPage(currentPage, 15)
-      .then(({ users: _users, totalPage }) => ({
-        users: _users.filter((user) => user.name.startsWith(searchKeyword)),
-        totalPage,
-      }))
-      .then(({ users: _users, totalPage }) => {
+      .then(filterUsersBy(searchKeyword))
+      .then(({ users, totalPage }) => {
         setUserStore((prevState) => {
           return {
             ...prevState,
             userStoreValues: {
-              users: _users,
+              users,
               currentPage,
-              totalUsers: _users.length,
+              totalUsers: prevState.userStoreValues.totalUsers,
               totalPage: totalPage,
               searchKeyword,
             },
@@ -68,7 +66,7 @@ export function Header() {
 
   return (
     <StyledHeader>
-      <div className="header-top">
+      <div>
         <h1>Users ({users.length})</h1>
         <div className="header-top-right">
           <KappButton
@@ -105,7 +103,7 @@ export function Header() {
 }
 
 const StyledHeader = styled.div`
-  .header-top {
+  div:first-child {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -121,15 +119,15 @@ const StyledHeader = styled.div`
       overflow: hidden;
       line-height: 31px;
     }
+
+    div {
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+    }
   }
 
-  .header-top-right {
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-  }
-
-  .header-bottom {
+  div:last-child {
     display: flex;
     flex-direction: row;
     align-items: center;

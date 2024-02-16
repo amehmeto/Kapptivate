@@ -3,7 +3,8 @@ import { useContext } from 'react'
 import { UserAccessTableHead } from './UserAccessTableHead.tsx'
 import { UserAccessTableRow } from './UserAccessTableRow.tsx'
 import { UserAccessTableFoot } from './UserAccessTableFoot.tsx'
-import { UserContext } from './UserContext.tsx'
+import { UserContext } from '../UserContext/UserContext.tsx'
+import { UserNotFound } from './UserNotFound.tsx'
 
 export function UserAccessTable() {
   const userStore = useContext(UserContext)
@@ -17,19 +18,13 @@ export function UserAccessTable() {
       <table>
         <UserAccessTableHead />
         <tbody>
-          {users.length === 0 && (
-            <tr>
-              <td colSpan={5} rowSpan={15}>
-                No users found
-              </td>
-            </tr>
-          )}
+          {users.length === 0 && <UserNotFound />}
           {users.length > 0 &&
             users.map((user) => (
               <UserAccessTableRow key={user.id} user={user} />
             ))}
         </tbody>
-        <UserAccessTableFoot />
+        {users.length > 0 && <UserAccessTableFoot />}
       </table>
     </StyledUserAccessTable>
   )

@@ -1,4 +1,4 @@
-import kapptivateLogo from '../assets/kapptivate.svg'
+import kapptivateLogo from '../../assets/kapptivate.svg'
 import styled from 'styled-components'
 
 export function TopBar() {

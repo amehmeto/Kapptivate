@@ -1,9 +1,9 @@
 import './design-system.css'
-import { TopBar } from './TopBar.tsx'
-import { Header } from './Header.tsx'
-import { UserAccessTable } from './UserAccessTable.tsx'
+import { TopBar } from './Components/TopBar.tsx'
+import { Header } from './Components/Header.tsx'
+import { UserAccessTable } from './Components/UserAccessTable.tsx'
 import { useState } from 'react'
-import { UserContext, UserStore } from './UserContext.tsx'
+import { UserContext, UserStore } from './UserContext/UserContext.tsx'
 
 function App() {
   const [userStore, setUserStore] = useState<UserStore>({

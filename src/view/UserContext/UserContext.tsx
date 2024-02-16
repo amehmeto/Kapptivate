@@ -1,5 +1,5 @@
 import React, { createContext } from 'react'
-import { User } from '../core/models/User.tsx'
+import { User } from '../../core/models/User.ts'
 
 export type UserStore = {
   userStoreValues: {

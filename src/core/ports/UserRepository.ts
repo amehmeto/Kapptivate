@@ -1,4 +1,4 @@
-import { User } from '../models/User.tsx'
+import { User } from '../models/User.ts'
 
 export interface UserRepository {
   getAllUsers(): Promise<User[]>
