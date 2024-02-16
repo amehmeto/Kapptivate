@@ -1,9 +1,11 @@
 import styled, { css } from 'styled-components'
+import arrowDownIcon from '../../assets/arrow-down.svg'
 
 type KappButtonProps = {
   icon: string
   label: string
   variant: 'primary' | 'secondary'
+  type?: string
 }
 
 export function KappButton(props: Readonly<KappButtonProps>) {
@@ -11,6 +13,7 @@ export function KappButton(props: Readonly<KappButtonProps>) {
     <StyledButton variant={props.variant}>
       <img src={props.icon} alt="file up icon" />
       <span>{props.label}</span>
+      {props.type === 'dropdown' && <img src={arrowDownIcon} alt="Dropdown" />}
     </StyledButton>
   )
 }
@@ -30,6 +33,10 @@ const StyledButton = styled.button<Pick<KappButtonProps, 'variant'>>`
   img {
     height: 12px;
     margin-right: 8px;
+  }
+
+  img:last-child {
+    margin: 0 0 0 16px;
   }
 
   ${(props) =>
